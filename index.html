@@ -56,12 +56,12 @@
                 <label for="">First Class ($150)</label>
                 <div class="left">
                     
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id="first-class-count" value="0" class="inp-style inp-width" type="number" name="">
                 </div>
                 <div class="right">
-                    <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                    <button class="btn btn-default" onclick="add_remove_first_class('add')"><i class="fas fa-plus"></i></button>
                     <br/>
-                    <button class="btn btn-default"><i class="fas fa-minus"></i></button>
+                    <button class="btn btn-default" onclick="add_remove_first_class('remove')"><i class="fas fa-minus"></i></button>
                     
                 </div>
             
@@ -72,12 +72,12 @@
                 <label for="">Economy ($100)</label>
                 <div class="left">
                     
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id="economy-class-count" value="0" class="inp-style inp-width" type="number" name="">
                 </div>
                 <div class="right">
-                    <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                    <button class="btn btn-default" onclick="add_remove_economy_class('add')"><i class="fas fa-plus"></i></button>
                     <br/>
-                    <button class="btn btn-default"><i class="fas fa-minus"></i></button>
+                    <button class="btn btn-default" onclick="add_remove_economy_class('remove')"><i class="fas fa-minus"></i></button>
                     
                 </div>
                 
@@ -88,7 +88,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p id="subtotal">$500</p>
                     </div>
                 </div>
 
@@ -97,7 +97,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p id="tax">$50</p>
                     </div>
                 </div>
                 <hr>
@@ -106,7 +106,7 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p id="grand-total">$550</p>
                     </div>
                 </div>
             </div>
@@ -119,10 +119,68 @@
         </div>
     </section>
     <script>
+        // var count_first_class = 0;
+        // var count_economy_class = 0;
+        var first_class_total = 0;
+        var economy_class_total = 0;
+
+        function getInputValue(flight_class){
+            const flight_classInput = document.getElementById(flight_class + '-count');
+            const flight_classCount = parseInt(flight_classInput.value);
+            // console.log(flight_classCount);
+            return flight_classCount;
+
+        }
+
+        function add_remove_first_class(param){
+            let count_first_class = 0;
+            if(param == 'add'){
+                count_first_class = getInputValue('first-class') + 1;
+            }
+            if(param == 'remove'){
+                count_first_class = getInputValue('first-class') - 1;
+                if(count_first_class < 0){
+                    count_first_class = 0;
+                }
+            }
+            document.getElementById('first-class-count').value = count_first_class;
+            first_class_total = count_first_class * 150;
+            console.log(first_class_total);
+            calculate_total();
+
+        }
+
+        function add_remove_economy_class(param){
+            let count_economy_class = 0;
+            if(param == 'add'){
+                count_economy_class = getInputValue('economy-class') + 1;
+            }
+            if(param == 'remove'){
+                count_economy_class = getInputValue('economy-class') - 1;
+                if(count_economy_class < 0){
+                    count_economy_class = 0;
+                }
+            }
+            document.getElementById('economy-class-count').value = count_economy_class;
+
+            economy_class_total = count_economy_class * 100;
+            console.log(economy_class_total);
+            calculate_total();
+
+        }
+
+        function calculate_total(){
+            const subtotal = getInputValue('first-class') * 150 + getInputValue('economy-class') * 100;
+            document.getElementById('subtotal').innerText = '$' + subtotal;
+            const tax = (subtotal * 0.1).toFixed(0);
+            document.getElementById('tax').innerText = '$' + tax;
+
+            const grand_total = parseInt(subtotal) + parseInt(tax);
+            document.getElementById('grand-total').innerText = '$' + grand_total;
+            
 
 
-
-
+        }
 
 
     </script>
