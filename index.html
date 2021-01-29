@@ -31,7 +31,7 @@
     </header>
 
     <!--Booking Section-->
-    <main class="main-content container">
+    <section id="main-page" class="main-content container">
         <div class="booking-form">
             <h3>Booking Flights</h3>
             <div class="input-group">
@@ -59,9 +59,9 @@
                     <input id="first-class-count" value="0" class="inp-style inp-width" type="number" name="">
                 </div>
                 <div class="right">
-                    <button class="btn btn-default" onclick="add_remove_first_class('add')"><i class="fas fa-plus"></i></button>
+                    <button class="btn btn-default" onclick="add_remove_ticket('add', 'first-class')"><i class="fas fa-plus"></i></button>
                     <br/>
-                    <button class="btn btn-default" onclick="add_remove_first_class('remove')"><i class="fas fa-minus"></i></button>
+                    <button class="btn btn-default" onclick="add_remove_ticket('remove', 'first-class')"><i class="fas fa-minus"></i></button>
                     
                 </div>
             
@@ -75,13 +75,14 @@
                     <input id="economy-class-count" value="0" class="inp-style inp-width" type="number" name="">
                 </div>
                 <div class="right">
-                    <button class="btn btn-default" onclick="add_remove_economy_class('add')"><i class="fas fa-plus"></i></button>
+                    <button class="btn btn-default" onclick="add_remove_ticket('add', 'economy-class')"><i class="fas fa-plus"></i></button>
                     <br/>
-                    <button class="btn btn-default" onclick="add_remove_economy_class('remove')"><i class="fas fa-minus"></i></button>
+                    <button class="btn btn-default" onclick="add_remove_ticket('remove', 'economy-class')"><i class="fas fa-minus"></i></button>
                     
                 </div>
                 
             </div>
+            
             <div class="calculations">
                 <div class="amount">
                     <div class="left">
@@ -110,7 +111,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button class="btn-style" onclick="go_to_confirm_page()">Book Now</button>
         </div>
 
         <div class="booking-content">
@@ -118,6 +119,16 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicingelit. Provident voluptatibus quam fuga laborumalias veniam libero autem quasi maxime ullam vero nama imi dolor, architecto ab facilis eaque deserunt nobise voluptatibus quam</p>
         </div>
     </section>
+
+    <section id="confirm-page" class="conainer" style="display: none;">
+        <div class="booking-form">
+            <h3>Thank you for booking ticket with us, have a nice journey!</h3>
+        </div>
+        
+
+    </section>
+
+
     <script>
         // var count_first_class = 0;
         // var count_economy_class = 0;
@@ -132,39 +143,27 @@
 
         }
 
-        function add_remove_first_class(param){
-            let count_first_class = 0;
+        function add_remove_ticket(param, flight_class){
+            let count_ticket = 0;
             if(param == 'add'){
-                count_first_class = getInputValue('first-class') + 1;
+                count_ticket = getInputValue(flight_class) + 1;
             }
             if(param == 'remove'){
-                count_first_class = getInputValue('first-class') - 1;
-                if(count_first_class < 0){
-                    count_first_class = 0;
+                count_ticket = getInputValue(flight_class) - 1;
+                if(count_ticket < 0){
+                    count_ticket = 0;
                 }
             }
-            document.getElementById('first-class-count').value = count_first_class;
-            first_class_total = count_first_class * 150;
-            console.log(first_class_total);
-            calculate_total();
-
-        }
-
-        function add_remove_economy_class(param){
-            let count_economy_class = 0;
-            if(param == 'add'){
-                count_economy_class = getInputValue('economy-class') + 1;
+            document.getElementById(flight_class  + '-count').value = count_ticket;
+            
+            /* if(flight_class == 'first-class'){
+                flight_total = count_ticket * 150;
             }
-            if(param == 'remove'){
-                count_economy_class = getInputValue('economy-class') - 1;
-                if(count_economy_class < 0){
-                    count_economy_class = 0;
-                }
+            if(flight_class=='economy-class'){
+                flight_total = count_ticket * 100;
             }
-            document.getElementById('economy-class-count').value = count_economy_class;
-
-            economy_class_total = count_economy_class * 100;
-            console.log(economy_class_total);
+            console.log(flight_total);
+            */
             calculate_total();
 
         }
@@ -182,7 +181,11 @@
 
         }
 
-
+        function go_to_confirm_page()
+        {
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById('confirm-page').style.display = 'block';
+        }
     </script>
 
     <!--Thank You-->
